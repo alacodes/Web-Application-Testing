@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
+import Display from './components/Display'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">      
+      <div className="App"> 
+        <Display strikes={2} balls={3}/>     
       </div>
     );
   }
