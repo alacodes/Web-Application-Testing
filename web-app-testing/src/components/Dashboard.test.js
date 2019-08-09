@@ -1,14 +1,26 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import Controls from './Dashboard';
+import React from 'react'
+import { render, fireEvent, cleanup } from '@testing-library/react'
+import Controls from './Dashboard'
+import '@testing-library/react/cleanup-after-each'
 
 describe('<Controls />', () => {
     it('renders without crashing', ()=> {
         render(<Controls />)
-    })
+    });
     it('recognizes the strike button', () =>{
-        const { getByText } = render(<Controls />)
-        getByText(/strike/);
+        let clicked = false
+        const { getByText } = render(<Controls strike={() => clicked = true} />)
+        const strikeButton = getByText(/strike/i)
+        fireEvent.click(strikeButton)
+        expect(clicked).toBe(true)
+    })
+    //mocking function through jest
+    it('strike imposter', () => {
+        const click = jest.fn()
+        const { getByText } = render(<Controls strike={() => click} />)
+        const strikeButton = getByText(/strike/i)
+        fireEvent.click(strikeButton)
+        expect(click).toBeCalled()
     })
 })
 
